@@ -10,8 +10,10 @@ import java.util.Optional;
 
 @Service
 public class OwnerServiceImpl implements OwnerService{
+
     @Autowired
     private OwnerRepository ownerRepository;
+
     @Override
     public List<Owner> findAll() {
         return ownerRepository.findAll();
