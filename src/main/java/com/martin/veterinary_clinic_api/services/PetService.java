@@ -1,5 +1,6 @@
 package com.martin.veterinary_clinic_api.services;
 
+import com.martin.veterinary_clinic_api.dtos.PetOwnerDTO;
 import com.martin.veterinary_clinic_api.entities.Pet;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface PetService {
     void save (Pet pet);
     void deleteById (Long id);
     Optional<Object> update (Pet pet);
+    List<Pet> findBySpeciesAndBreed (String species, String breed);
+    List<PetOwnerDTO> getAllPetsAndOwnerDTO ();
 }

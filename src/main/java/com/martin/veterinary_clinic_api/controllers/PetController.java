@@ -1,5 +1,6 @@
 package com.martin.veterinary_clinic_api.controllers;
 
+import com.martin.veterinary_clinic_api.dtos.PetOwnerDTO;
 import com.martin.veterinary_clinic_api.entities.Pet;
 import com.martin.veterinary_clinic_api.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,15 @@ public class PetController {
         if (optionalObject.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(optionalObject.orElseThrow());
     }
+
+    @GetMapping("/get")
+    public List<Pet> getAllPetsBySpecieAndBreed (@RequestParam String species, @RequestParam String breed) {
+        return petService.findBySpeciesAndBreed(species, breed);
+    }
+
+    @GetMapping("/owners")
+    public List<PetOwnerDTO> findAllOwnersAndPets () {
+        return petService.getAllPetsAndOwnerDTO();
+    }
+
 }

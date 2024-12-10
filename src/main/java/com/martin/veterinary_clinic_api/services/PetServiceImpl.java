@@ -1,10 +1,12 @@
 package com.martin.veterinary_clinic_api.services;
 
+import com.martin.veterinary_clinic_api.dtos.PetOwnerDTO;
 import com.martin.veterinary_clinic_api.entities.Pet;
 import com.martin.veterinary_clinic_api.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,4 +50,35 @@ public class PetServiceImpl implements PetService{
         petRepository.save(petDb);
         return Optional.of(petDb);
     }
+
+    @Override
+    public List<Pet> findBySpeciesAndBreed(String species, String breed) {
+        return petRepository.findBySpeciesAndBreed(species, breed);
+    }
+
+    @Override
+    public List<PetOwnerDTO> getAllPetsAndOwnerDTO() {
+        List<Pet> pets = this.findAll();
+        List<PetOwnerDTO> petOwnerDTOS = new ArrayList<>();
+
+        for (Pet pet : pets){
+            PetOwnerDTO petOwnerDTO = convertPetOwnerDTO(pet);
+            petOwnerDTOS.add(petOwnerDTO);
+        }
+
+        return petOwnerDTOS;
+    }
+
+    private PetOwnerDTO convertPetOwnerDTO (Pet pet){
+        PetOwnerDTO petOwnerDTO = new PetOwnerDTO();
+
+        petOwnerDTO.setPet_name(pet.getName());
+        petOwnerDTO.setSpecies(pet.getSpecies());
+        petOwnerDTO.setBreed(pet.getBreed());
+        petOwnerDTO.setOwner_name(pet.getOwner().getName());
+        petOwnerDTO.setOwner_lastname(pet.getOwner().getLastname());
+
+        return petOwnerDTO;
+    }
+
 }
